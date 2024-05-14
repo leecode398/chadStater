@@ -1,3 +1,4 @@
+local overrides = require "configs.overrides"
 return {
     {
         "stevearc/conform.nvim",
@@ -13,6 +14,68 @@ return {
         config = function()
             require("nvchad.configs.lspconfig").defaults()
             require "configs.lspconfig"
+        end,
+    },
+    {
+        "nvim-telescope/telescope.nvim",
+        cmd = "Telescope",
+
+        opts = overrides.telescope,
+        config = function(_, opts)
+            dofile(vim.g.base46_cache .. "telescope")
+            local telescope = require "telescope"
+            telescope.setup(opts)
+
+            -- load extensions
+            for _, ext in ipairs(opts.extensions_list) do
+                telescope.load_extension(ext)
+            end
+        end,
+    },
+    {
+        "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
+        dependencies = {
+            {
+                -- snippet plugin
+                "L3MON4D3/LuaSnip",
+                dependencies = "rafamadriz/friendly-snippets",
+                config = function()
+                    overrides.luasnip()
+                end,
+            },
+
+            -- autopairing of (){}[] etc
+            {
+                "windwp/nvim-autopairs",
+                opts = {
+                    fast_wrap = {},
+                    disable_filetype = { "TelescopePrompt", "vim" },
+                },
+                config = function(_, opts)
+                    require("nvim-autopairs").setup(opts)
+
+                    -- setup cmp for autopairs
+                    local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+                    require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done())
+                end,
+            },
+
+            -- cmp sources plugins
+            {
+                "saadparwaiz1/cmp_luasnip",
+                "hrsh7th/cmp-nvim-lua",
+                "hrsh7th/cmp-nvim-lsp",
+                "hrsh7th/cmp-buffer",
+                "hrsh7th/cmp-path",
+            },
+        },
+
+        opts = function()
+            return require "configs.cmp"
+        end,
+        config = function(_, opts)
+            require("cmp").setup(opts)
         end,
     },
     {
@@ -72,15 +135,15 @@ return {
             require "configs.toggleterm"
         end,
     },
-    {
-        "LintaoAmons/scratch.nvim",
-        lazy = false,
-        --config = function()
-        --require("scratch").setup {
-        --filetypes = { "json", "xml", "go", "lua", "log", "py", "sh" },
-        --}
-        --end,
-    },
+    -- {
+    --     "LintaoAmons/scratch.nvim",
+    --     lazy = false,
+    --     --config = function()
+    --     --require("scratch").setup {
+    --     --filetypes = { "json", "xml", "go", "lua", "log", "py", "sh" },
+    --     --}
+    --     --end,
+    -- },
     { "tpope/vim-repeat", lazy = false },
     {
         "rafamadriz/friendly-snippets",
@@ -137,13 +200,13 @@ return {
         opts = {
             toggler = {
                 ---Line-comment toggle keymap
-                line = ",cc",
+                line = "gc",
                 ---Block-comment toggle keymap
                 --[[ block = ",cc", ]]
             },
             opleader = {
                 ---Line-comment keymap
-                line = ",cc",
+                line = "gc",
                 ---Block-comment keymap
                 --[[ block = ",cc", ]]
             },
