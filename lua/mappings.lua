@@ -3,6 +3,8 @@ require "nvchad.mappings"
 -- add yours here
 
 local map = vim.keymap.set
+local umap = vim.api.nvim_del_keymap
+local api = require('Comment.api')
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jj", "<ESC>")
@@ -31,9 +33,6 @@ map("i", "<C-n>",  "<Down>", { desc = "move down" })
 map("i", "<C-h>",  "<ESC>^i", { desc = "beginning of line" })
 map("i", "<C-l>",  "<End>", { desc = "end of line" })
 
--- lspconfig
-map("n", "<C-j>", "<cmd> Telescope lsp_definitions <CR>", { desc = "lsp definitions" })
-
 -- telescope
 map("n", "<C-p>", "<cmd> Telescope find_files <CR>", { desc = "  find files" })
 map("n", "<leader>fa","<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>",{ desc = "  find all" })
@@ -55,8 +54,11 @@ map("n", "gr","<cmd> Telescope lsp_references <CR>", { desc = "lsp references" }
 map("n", "gd","<cmd> Telescope lsp_definitions <CR>", { desc = "lsp definitions" })
 map("n", "gi","<cmd> Telescope lsp_implementations <CR>", { desc = "lsp implementations" })
 map("n", "gt","<cmd>Telescope lsp_type_definitions <CR>", { desc = "lsp type_definition" })
-
 map("n", "<leader>s","<cmd>Telescope session-lens search_session <CR>", { desc = "session" })
+
+-- lspconfig
+-- map("n", "<C-j>","<cmd> Telescope lsp_definitions <CR>", { desc = "lsp definitions" })
+
 
 -- nvimtree
 map("n", ";a","<cmd> NvimTreeToggle <CR>", { desc = "toggle nvimtree" })
@@ -80,3 +82,13 @@ map("n", ",o", function()
     require("scratch").openScratch()
 end)
 map("n", "<C-\\>", ":%s/\\//g<CR>", { silent = true })
+umap("n", "<leader>cc")
+map({'n'}, '<leader>cc', api.toggle.linewise.current)
+
+local esc = vim.api.nvim_replace_termcodes(
+    '<ESC>', true, false, true
+)
+vim.keymap.set('x', '<leader>cc', function()
+vim.api.nvim_feedkeys(esc, 'nx', false)
+api.locked('toggle.linewise')(vim.fn.visualmode())
+end)
