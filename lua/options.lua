@@ -16,6 +16,6 @@ opt.cursorline = true -- 高亮当前行
 opt.foldenable = false
 opt.scrolloff = 4 -- vim滚动时保持光标距离屏幕上下边缘的行数
 opt.fdm = "syntax"
-opt.fileformats = "unix"
+opt.fileformats = "unix,dos"
 opt.foldmethod = "expr" -- folding set to "expr" for treesitter based folding
 opt.foldexpr = "nvim_treesitter#foldexpr()" -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
