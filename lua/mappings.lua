@@ -98,7 +98,16 @@ map("n", "<leader>s", "<cmd>Telescope session-lens search_session <CR>", { desc 
 -- map("n", "<C-j>", function()
 --     vim.lsp.buf.definition()
 -- end, { desc = "LSP definition" })
+map("n", "K", vim.lsp.buf.hover, { desc = "LSP hover information" })
 
 -- nvimtree
 map("n", ";a", "<cmd> NvimTreeToggle <CR>", { desc = "toggle nvimtree" })
 map("n", ";e", "<cmd> NvimTreeFocus <CR>", { desc = "focus nvimtree" })
+
+-- goto-preview
+map("n", "gpd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", { noremap = true })
+map("n", "gpt", "<cmd>lua require('goto-preview').goto_preview_type_definition()<CR>", { noremap = true })
+map("n", "gpi", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", { noremap = true })
+map("n", "gpD", "<cmd>lua require('goto-preview').goto_preview_declaration()<CR>", { noremap = true })
+map("n", "gP", "<cmd>lua require('goto-preview').close_all_win()<CR>", { noremap = true })
+map("n", "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", { noremap = true })
