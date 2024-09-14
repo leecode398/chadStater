@@ -93,6 +93,7 @@ map("n", "<C-j>", "<cmd> Telescope lsp_definitions <CR>", { desc = "lsp definiti
 map("n", "gi", "<cmd> Telescope lsp_implementations <CR>", { desc = "lsp implementations" })
 map("n", "gt", "<cmd>Telescope lsp_type_definitions <CR>", { desc = "lsp type_definition" })
 map("n", "<leader>s", "<cmd>Telescope session-lens search_session <CR>", { desc = "session" })
+map("n", "gc", "<cmd>Telescope lsp_incoming_calls<CR>", { desc = "lsp incoming calls" })
 
 -- lspconfig
 -- map("n", "<C-j>", function()
